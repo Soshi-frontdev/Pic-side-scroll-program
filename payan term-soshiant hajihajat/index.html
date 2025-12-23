@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: #1e0a29;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .dv{
+            justify-content: center;
+            display: flex;
+            gap: 10px;
+            border-radius: 20px;
+            background-color: #24113a;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .le1{
+            display: flex;
+            gap: 1000px;
+        }
+        .dv1, .dv2, .dv3, .dv4 {
+            transition: opacity 0.3s ease;
+        }
+        .dv1 img, .dv2 img, .dv3 img, .dv4 img {
+            border-radius: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="dv">
+<div class="dv1"><img src="./wp11286179.jpg" width="200px" height="200px"></div>
+<div class="dv2"><img src="./wp14071774.jpg" width="200px" height="200px" ></div>
+<div class="dv3"><img src="./zeQEUCU-black-metal-backgrounds.jpg" width="200px" height="200px"></div>
+<div class="dv4 hidden"><img src="./desktop-wallpaper-skull-full-and-background-black-metal.jpg" width="200px" height="200px"></div>
+<div>
+<input type="checkbox" id="autoCheckbox">Auto
+<div class="le1"></div>
+ <button id="btn1" onclick="leftbtn()">&lt;</button>
+ <button id="btn2" onclick="rightbtn()">&gt;</button>
+</div>
+
+<script>
+    let state = 0;
+    let autoInterval = null;
+    
+    function updateDisplay() {
+        document.querySelectorAll('.dv1, .dv2, .dv3, .dv4').forEach(div => div.classList.add('hidden'));
+        
+        if (state === 0) {
+            document.querySelector('.dv1').classList.remove('hidden');
+            document.querySelector('.dv2').classList.remove('hidden');
+            document.querySelector('.dv3').classList.remove('hidden');
+        } else {
+            document.querySelector('.dv2').classList.remove('hidden');
+            document.querySelector('.dv3').classList.remove('hidden');
+            document.querySelector('.dv4').classList.remove('hidden');
+        }
+    }
+    
+    function shufflePics() {
+        const allDivs = ['.dv1', '.dv2', '.dv3', '.dv4'];
+        const shuffled = allDivs.sort(() => Math.random() - 0.5);
+        const showDivs = shuffled.slice(0, 3);
+        
+        document.querySelectorAll('.dv1, .dv2, .dv3, .dv4').forEach(div => div.classList.add('hidden'));
+        showDivs.forEach(selector => document.querySelector(selector).classList.remove('hidden'));
+    }
+    
+    function rightbtn() {
+        if (autoInterval) return;
+        state = (state + 1) % 2;
+        updateDisplay();
+    }
+    
+    function leftbtn() {
+        if (autoInterval) return;
+        state = (state - 1 + 2) % 2;
+        updateDisplay();
+    }
+    
+    document.getElementById('autoCheckbox').addEventListener('change', function() {
+        if (this.checked) {
+            shufflePics(); // Start immediately
+            autoInterval = setInterval(shufflePics, 1000); // Continue every second
+        } else {
+            if (autoInterval) {
+                clearInterval(autoInterval);
+                autoInterval = null;
+            }
+            updateDisplay();
+        }
+    });
+    
+    updateDisplay();
+</script>
+</div>
+
+</body>
+</html>
